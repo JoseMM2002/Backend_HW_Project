@@ -1,6 +1,8 @@
 import express from 'express';
 import https from 'https';
 import fs from 'fs';
+import morgan from 'morgan';
+import { syncDb } from './database/connection';
 
 const hostname = "backend.hw.project";
 
@@ -12,15 +14,23 @@ const options = {
     cert: fs.readFileSync('backend.hw.project.pem'),
 };
 
-app.use(express.json());
+app.use(express.json(), morgan('dev'));
 
-app.get('/', (_, res) => {
+app.get('/version', (_, res) => {
     res.json({
         name: 'Backend FH Project',
         version: '0.1.0',
     });
+});
+
+const initServer = async () => {
+    await syncDb();
+    https.createServer(options, app).listen(port, () => {
+        console.log(`App listening on https://${hostname}:${port}/`);
+    });
+}
+
+initServer().catch((e) => {
+    console.log(`Error: ${e}, initializing server`);
 })
 
-https.createServer(options, app).listen(port, () => {
-    console.log(`App listening on https://${hostname}:${port}/`);
-});
