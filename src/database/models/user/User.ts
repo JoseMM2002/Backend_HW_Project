@@ -1,11 +1,27 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
-import type { UUID } from 'crypto';
+import { addUserHooks } from './Hooks';
 
-export class User extends Model {
-    public id!: UUID;
+export interface UserAttributes {
+    id: string;
+    name: string;
+    email: string;
+    password: string;
+}
+
+export interface UserCreationAttributes extends Omit<UserAttributes, 'id'> {}
+
+export class User extends Model<UserAttributes, UserCreationAttributes> {
+    public id!: string;
     public name!: string;
     public email!: string;
     public password!: string;
+    public createVm() {
+        return {
+            id: this.id,
+            email: this.email,
+            name: this.name
+        };
+    }
 }
 
 export const syncUsers = (db: Sequelize) => {
@@ -22,7 +38,8 @@ export const syncUsers = (db: Sequelize) => {
             },
             email: {
                 type: new DataTypes.STRING(128),
-                allowNull: false
+                allowNull: false,
+                unique: true
             },
             password: {
                 type: new DataTypes.STRING(60),
@@ -34,4 +51,5 @@ export const syncUsers = (db: Sequelize) => {
             sequelize: db
         }
     );
+    addUserHooks();
 };
