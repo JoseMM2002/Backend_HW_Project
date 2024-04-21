@@ -9,7 +9,8 @@
         "build": "tsc --build",
         "start": "mkcert backend.hw.project && mkcert -install && tsc && node dist/src/app.js",
         "start:build": "mkcert backend.hw.project && mkcert -install && tsc --build && node dist/src/app.js",
-        "dev": "mkcert backend.hw.project && mkcert -install && nodemon src/app.ts"
+        "dev": "mkcert backend.hw.project && mkcert -install && nodemon src/app.ts",
+        "scripts": "ts-node "
     },
     "keywords": [],
     "author": "",
