@@ -7,12 +7,12 @@ const cardRouter = Router();
 
 cardRouter.get('/', async (_, res) => {
     const cards = await Card.findAll();
-    res.json(cards);
+    res.json(cards.map(acc => acc.createVm()));
 });
 
 cardRouter.get('/:id', async (req, res) => {
     const card = await Card.findByPk(req.params.id);
-    res.json(card);
+    res.json(card?.createVm());
 });
 
 cardRouter.post('/auth', async (req, res) => {

@@ -7,12 +7,12 @@ const accountRouter = Router();
 
 accountRouter.get('/', async (_, res) => {
     const accounts = await Account.findAll();
-    res.status(200).json(accounts);
+    res.status(200).json(accounts.map(acc => acc.createVm()));
 });
 
 accountRouter.get('/:id', async (req, res) => {
     const account = await Account.findByPk(req.params.id);
-    res.status(200).json(account);
+    res.status(200).json(account?.createVm());
 });
 
 accountRouter.get('/balance/:id', async (req, res) => {
