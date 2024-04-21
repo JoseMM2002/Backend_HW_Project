@@ -1,14 +1,15 @@
 import { Sequelize } from 'sequelize';
-import { syncUsers } from './models/User';
-import { syncAccounts } from './models/Account';
-import { syncCards } from './models/Card';
-import { syncTransactions } from './models/Transaction';
+import { syncUsers } from './models/user/User';
+import { syncAccounts } from './models/account/Account';
+import { syncCards } from './models/card/Card';
+import { syncTransactions } from './models/transaction/Transaction';
 
 export const sequilize = async () => {
+    console.log('Connecting to db...');
     const sequilize = new Sequelize({
         dialect: 'sqlite',
-        storage: './db.sqlite',
-        logging: console.log
+        storage: './db.sqlite'
+        // logging: console.log
     });
     await sequilize.authenticate();
     return sequilize;
@@ -20,5 +21,6 @@ export const syncDb = async () => {
     syncAccounts(db);
     syncCards(db);
     syncTransactions(db);
-    await db.sync();
+    console.log('Syncing db...');
+    await db.sync({});
 };
