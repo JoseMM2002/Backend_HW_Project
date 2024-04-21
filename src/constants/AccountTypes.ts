@@ -1,4 +1,4 @@
-export const CardTypes = {
+export const AccountTypes = {
     START: 'STAR',
     PULSE: 'PULSE',
     MAESTRO: 'MAESTRO',
@@ -7,4 +7,4 @@ export const CardTypes = {
     VISA: 'VISA'
 } as const;
 
-export type CardType = (typeof CardTypes)[keyof typeof CardTypes];
+export type AccountType = (typeof AccountTypes)[keyof typeof AccountTypes];
