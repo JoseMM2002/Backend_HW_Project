@@ -2,12 +2,12 @@
     "name": "Backend_HW_Project",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "dist/src/app.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "tsc --build",
-        "start": "tsc && node dist/index.js",
-        "start:build": "tsc --build && node dist/index.js",
+        "start": "tsc && node dist/src/app.js",
+        "start:build": "tsc --build && node dist/src/app.js",
         "dev": "nodemon src/app.ts"
     },
     "keywords": [],
