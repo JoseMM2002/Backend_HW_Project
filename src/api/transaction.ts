@@ -19,11 +19,19 @@ transactionRouter.post('/', async (req, res) => {
             message: 'Account is not defined'
         });
     try {
+        const account = await Account.findByPk(params.accountId);
+        if (!account)
+            return res.status(400).send({
+                message: "Couldn't find the Account"
+            });
+        if (account.funds < params.amount)
+            return res.status(400).send({
+                message: 'Not enough funds in the Account'
+            });
         const transaction = await Transaction.create(params);
-        const account = await Account.findByPk(transaction.accountId);
         res.status(200).send({
-            transaction,
-            account
+            transaction: transaction.createVm(),
+            account: (await Account.findByPk(account.id))?.createVm()
         });
     } catch {
         res.status(500).send({
